@@ -21,7 +21,6 @@ Gem::Specification.new do |s|
   # specify any dependencies here; for example:
   s.add_development_dependency "rspec",     "~> 2.8.0"
   s.add_development_dependency "cucumber",  "~> 1.1.8"
-  s.add_development_dependency "fakefs",    "~> 0.4.0"
   s.add_development_dependency "pry"
   # s.add_runtime_dependency "rest-client"
 end

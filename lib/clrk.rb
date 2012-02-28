@@ -8,7 +8,6 @@ class CLRK
     self.lib_dir = lib_dir
   end
 
-
   def initialize_dir(working_dir, stdout, stderr)
     contents = Dir['*']
     if contents.empty?
@@ -20,9 +19,15 @@ class CLRK
     end
   end
 
+  def test(program_name=Dir.getwd)
+    0
+  end
+
 private
   
   def copy_files(options)
-    FileUtils.cp_r options[:from], options[:to]
+    Dir.glob(options[:from]).each do |file|
+      FileUtils.cp_r file, options[:to]
+    end
   end
 end

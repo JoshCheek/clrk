@@ -21,16 +21,16 @@ Feature: Initialize directory
     And the koan has a test
       """
       describe 'test1' do
-        it 'converts "input" to "output on stdin" do
+        it 'converts "input" to "output" on stdin' do
           test_koan :stdin => "input1.txt", :result => "output1.txt"
         end
         
-        it 'converts "input" to "output" from args" do
+        it 'converts "input" to "output" from args' do
           test_koan :argv => "input1.txt", :result => "output1.txt"
         end
       end
       """
-
+    
 
   Scenario: Initializing an empty directory
     Given I am in an empty directory
