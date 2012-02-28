@@ -1,6 +1,13 @@
 $LOAD_PATH.unshift File.expand_path('../../../lib', __FILE__)
 ROOT_DIR = File.expand_path "../../..", __FILE__
 
+class String
+  def unindent
+    whitespace = self[/^\s*/]
+    gsub /^#{whitespace}/, ''
+  end
+end
+
 require 'pry' # just b/c you know I'll need it
 require 'clrk'
 

@@ -21,6 +21,62 @@ Given 'the koan has a test' do |testbody|
   make_file "#@koan_dir/spec.rb", testbody
 end
 
+Then 'pry' do
+  binding.pry
+end
+
+Given 'an example koan' do
+  step %Q(a koan named "test1")
+  step %Q(the koan has an explanation), <<-EOS.unindent.strip
+    Some explanation.
+  EOS
+  step %Q(the koan has an input file "input1.txt"), <<-EOS.unindent.strip
+    input line 1
+    input line 2
+  EOS
+  step %Q(the koan has an output file "output1.txt"), <<-EOS.unindent.strip
+    output line 1
+    output line 2
+  EOS
+  step %Q(the koan has a test), <<-EOS.unindent.strip
+    describe 'test1' do
+      it 'converts "input" to "output" on stdin' do
+        test_koan :stdin => "input1.txt", :result => "output1.txt"
+      end
+      
+      it 'converts "input" to "output" from args' do
+        test_koan :argv => "input1.txt", :result => "output1.txt"
+      end
+    end
+  EOS
+end
+
+Given 'a passing example koan' do
+  step %Q(a koan named "test1")
+  step %Q(the koan has a test), <<-EOS.unindent.strip
+    describe 'test1' do
+      it "passes" do
+        true.should be_true
+      end
+    end
+  EOS
+end
+
+Given 'a failing example koan' do
+  step %Q(a koan named "test1")
+  step %Q(the koan has a test), <<-EOS.unindent.strip
+    describe 'test1' do
+      it "fails" do
+        fail
+      end
+    end
+  EOS
+end
+
+When "I run the koan" do
+  step %Q(I run `clrk test test1`)
+end
+
 Given 'I am in an empty directory' do
   make_dir "#@proving_grounds_dir/empty_dir"
   Dir.chdir "#@proving_grounds_dir/empty_dir"

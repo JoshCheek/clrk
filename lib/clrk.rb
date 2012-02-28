@@ -20,7 +20,10 @@ class CLRK
   end
 
   def test(program_name=Dir.getwd)
-    0
+    Dir.chdir program_name do
+      `rspec spec.rb`
+    end
+    $?.exitstatus
   end
 
 private
@@ -31,3 +34,4 @@ private
     end
   end
 end
+
