@@ -1,4 +1,5 @@
 require "clrk/version"
+require "clrk/test_koan"
 require 'fileutils'
 
 class CLRK
