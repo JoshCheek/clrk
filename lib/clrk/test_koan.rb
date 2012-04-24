@@ -3,15 +3,15 @@ class CLRK
     class ScriptBuilder
       attr_accessor :options
 
-      def initialize(options)
-        self.options = options
+      def initialize(script_body, options)
+        self.script_body, self.options = script_body, options
       end
 
       def script
         if stdin
-          "cat #{stdin} | ruby #{rendered}"
+          "cat #{stdin} | #{script_body}"
         else
-          "#{rendered} #{argv.join ' '}"
+          "#{script_body} #{argv.join ' '}"
         end
       end
 
@@ -22,12 +22,11 @@ class CLRK
       def argv
         Array(options[:argv])
       end
-
-      def rendered
-        ""
-      end
     end
+  end
 
+
+  class TestKoan
     attr_accessor :koan_dir, :execute_script
 
     def initialize(koan_dir, &execute_script)
@@ -39,7 +38,20 @@ class CLRK
     end
 
     def test_koan(options)
-      execute_script ScriptBuilder.new(options).script
+      output = execute_script ScriptBuilder.new(script_body, options).script
+      output.should == output_file_contents(options.fetch :result)
+    end
+
+    def output_file_contents(output_file)
+      File.read output_file
+    end
+
+    def script_body
+      script_getter.call script_file
+    end
+
+    def script_file
+      koan_dir + "/solution"
     end
   end
 end
